@@ -6,6 +6,7 @@ import { storeRecipes } from '../store/slices/allRecipes'
 import { addUser } from '../store/slices/userSlice'
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchedRecipe from './SearchedRecipe'
+import { BASE_URL } from '../utils'
 
 const NavBar = () => {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const NavBar = () => {
   const [searchedRecipes,setSearchedRecipes] = useState([])
   const [showSearch,setShowSearch] = useState(false)
   const loadData = async()=>{
-    const res = await axios.get('/recipe/getAllRecipes')
+    const res = await axios.get(`${BASE_URL}/recipe/getAllRecipes`)
     if(res.status === 200){
       dispatch(storeRecipes(res.data.recipes))
     }

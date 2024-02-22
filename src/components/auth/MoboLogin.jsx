@@ -20,7 +20,7 @@ const MoboLogin = ({ setLogin }) => {
     console.log(user);
     if (user.email && user.password && user.name) {
       try {
-        const response = await axios.post("/auth/register", user);
+        const response = await axios.post(`${BASE_URL}/auth/register`, user);
         console.log(response);
 
         if (response.status === 200) {
@@ -68,7 +68,7 @@ const MoboLogin = ({ setLogin }) => {
     console.log(user);
     if (user.email && user.password) {
       try {
-        const response = await axios.post("/auth/login", user);
+        const response = await axios.post(`${BASE_URL}/auth/login`, user);
         console.log(response);
 
         if (response.status === 200) {

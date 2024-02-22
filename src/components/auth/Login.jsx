@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../store/slices/userSlice";
+import { BASE_URL } from "../../utils";
 
 const Login = ({setLogin}) => {
   const navigate = useNavigate()
@@ -21,7 +22,7 @@ const Login = ({setLogin}) => {
     if (user.email && user.password && user.name) {
       try{
         const response = await axios.post(
-          "/auth/register",
+          `${BASE_URL}/auth/register`,
           user
         );
         console.log(response)
@@ -61,7 +62,7 @@ const Login = ({setLogin}) => {
     if (user.email && user.password) {
       try{
         const response = await axios.post(
-          "/auth/login",
+          `${BASE_URL}/auth/login`,
           user
         );
         console.log(response)

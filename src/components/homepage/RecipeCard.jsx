@@ -6,6 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
+import { BASE_URL } from "../../utils";
 
 const RecipeCard = ({ recipe }) => {
   const user = useSelector((state) => state.user);
@@ -22,7 +23,7 @@ const RecipeCard = ({ recipe }) => {
   }, [user, recipe]);
   const handleClick = async (action) => {
     if (action === "remove") {
-      const res = await axios.post("/recipe/removeFav", {
+      const res = await axios.post(`${BASE_URL}/recipe/removeFav`, {
         recipe_id: recipe._id,
         user_id: user.id,
       });
@@ -33,7 +34,7 @@ const RecipeCard = ({ recipe }) => {
       }
     }else if(action === "add"){
       console.log(user)
-      const res = await axios.post("/recipe/addFav", {
+      const res = await axios.post(`${BASE_URL}/recipe/addFav`, {
         recipe_id: recipe._id,
         user_id: user.id,
       });

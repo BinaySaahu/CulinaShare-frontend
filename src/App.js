@@ -12,7 +12,7 @@ import axios from 'axios';
 import AboutUs from './pages/AboutUs';
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8001/"
+  // axios.defaults.baseURL = "http://localhost:8001/"
   return (
     <div className="">
       <NavBar/>

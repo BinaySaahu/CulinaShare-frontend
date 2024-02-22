@@ -4,6 +4,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import DropDown from "../DropDown";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { BASE_URL } from "../../utils";
 
 const FavMain = () => {
   const [dropDown, setDropDown] = useState(false);
@@ -16,7 +17,7 @@ const FavMain = () => {
 
   const loadData = async () => {
     try {
-      const res = await axios.get(`/recipe/getFavorites/${user?.id}`);
+      const res = await axios.get(`${BASE_URL}/recipe/getFavorites/${user?.id}`);
       if (res.status === 200) {
         setFavs(res?.data?.favRecipes);
         setCatArr(res?.data?.favRecipes)

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../utils";
 
 const AddRecipeModal = ({ setShowModal }) => {
   const user = useSelector((state) => state.user);
@@ -20,7 +21,7 @@ const AddRecipeModal = ({ setShowModal }) => {
   };
   const handleAdd = async () => {
     try {
-      const res = await axios.post("/recipe/addRecipe", {
+      const res = await axios.post(`${BASE_URL}/recipe/addRecipe`, {
         ...recipeDet,
         author: user.id,
       });
