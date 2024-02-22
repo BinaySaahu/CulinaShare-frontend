@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { addUser } from "../../store/slices/userSlice";
+import { BASE_URL } from "../../utils";
 
 const MoboLogin = ({ setLogin }) => {
   const [isSignUp, setIsSignup] = useState(false);
