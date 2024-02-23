@@ -54,6 +54,7 @@ const MoboLogin = ({ setLogin }) => {
           console.log("error");
         }
       } catch (err) {
+        dispatch(toggleLoading(false))
         console.log(err);
         if (err.response.data.code === 1) {
           setErr("User already exsists");
@@ -103,6 +104,7 @@ const MoboLogin = ({ setLogin }) => {
           console.log("error");
         }
       } catch (err) {
+        dispatch(toggleLoading(false))
         console.log(err);
         if (err.response.data.code === 2) {
           setErr("Invalid email");
