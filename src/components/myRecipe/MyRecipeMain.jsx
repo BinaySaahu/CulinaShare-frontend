@@ -42,7 +42,7 @@ const MyRecipeMain = () => {
         </div>
       ) : (
         <div className="h-full w-full flex justify-center items-center absolute top-0 left-0">
-          <h1 className="text-black/[0.8] font-extrabold md:text-[40px] text-[30px]">You Have not yet added any recipe</h1>
+          <h1 className="text-black/[0.8] font-extrabold md:text-[40px] text-[30px] text-center">You Have not yet added any recipe</h1>
         </div>
       )}
     </>

@@ -85,8 +85,8 @@ const FavMain = () => {
       ) : (
         <div className="h-full w-full flex justify-center items-center absolute top-0 left-0">
           <h1 className="flex flex-col items-center">
-            <span className="text-black/[0.8] font-extrabold md:text-[40px] text-[30px]">You Have not yet added any recipe</span>
-          <Link to='/home' className="border border-[#a7462c] hidden md:block text-white rounded py-2 px-5 text-[18px] font-semibold bg-bg_secondary1 shadow-btn_shadow mt-3">Explore</Link>
+            <span className="text-black/[0.8] text-center font-extrabold md:text-[40px] text-[30px]">You Have not yet added any recipe in your favorites</span>
+          <Link to='/home' className="border border-[#a7462c] text-white rounded py-2 px-5 text-[18px] font-semibold bg-bg_secondary1 shadow-btn_shadow mt-3">Explore</Link>
           </h1>
         </div>
       )}
