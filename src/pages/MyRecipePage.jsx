@@ -7,7 +7,7 @@ import AddRecipeModal from '../components/AddRecipeModal'
 const MyRecipePage = () => {
   const [showModal,setShowModal] = useState(false)
   return (
-    <div>
+    <div className='h-full'>
         <MyRecipeMain/>
         <AddRecipe setShowModal = {setShowModal}/>
         {showModal && <AddRecipeModal setShowModal = {setShowModal}/>}

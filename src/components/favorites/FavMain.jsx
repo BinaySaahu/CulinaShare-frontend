@@ -8,6 +8,7 @@ import { BASE_URL } from "../../utils";
 import { toggleLoading } from "../../store/slices/userSlice";
 import Loader from "../Loader";
 import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const FavMain = () => {
   const [dropDown, setDropDown] = useState(false);
@@ -53,8 +54,8 @@ const FavMain = () => {
 
   return (
     <>
-      <div className="m-4 md:mt-[100px] mt-[120px] md:text-[30px] text-[20px] font-bold text-center flex justify-between items-center relative">
       <Toaster position="top-center" reverseOrder={false} />
+      <div className="m-4 md:mt-[100px] mt-[120px] md:text-[30px] text-[20px] font-bold text-center flex justify-between items-center relative">
         <p>Favorite Recipes</p>
         <button
           className="border border-[#a7462c] rounded py-2 px-5 text-[12px] font-semibold bg-bg_secondary1 shadow-btn_shadow text-white "
@@ -75,11 +76,18 @@ const FavMain = () => {
           />
           <p>Loading...</p>
         </div>
-      ) : (
+      ) : catArr.length > 0 ? (
         <div className="grid md:grid-cols-4 grid-cols-1 gap-4 p-3">
           {catArr?.map((recipe, idx) => (
             <RecipeCard recipe={recipe} key={idx} />
           ))}
+        </div>
+      ) : (
+        <div className="h-full w-full flex justify-center items-center absolute top-0 left-0">
+          <h1 className="flex flex-col items-center">
+            <span className="text-black/[0.8] font-extrabold md:text-[40px] text-[30px]">You Have not yet added any recipe</span>
+          <Link to='/home' className="border border-[#a7462c] hidden md:block text-white rounded py-2 px-5 text-[18px] font-semibold bg-bg_secondary1 shadow-btn_shadow mt-3">Explore</Link>
+          </h1>
         </div>
       )}
     </>
