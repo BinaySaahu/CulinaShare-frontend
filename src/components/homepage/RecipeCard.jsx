@@ -7,6 +7,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
+import toast from "react-hot-toast";
 
 const RecipeCard = ({ recipe }) => {
   const user = useSelector((state) => state.user);
@@ -28,9 +29,10 @@ const RecipeCard = ({ recipe }) => {
         user_id: user.id,
       });
       if (res.status === 200) {
+        toast.success("Removed From Favorites");
         console.log(res);
+        setIsFav(!isFav)
         dispatch(updateUser({ id: recipe._id, action: "remove" }));
-        // window.location.reload();
       }
     }else if(action === "add"){
       console.log(user)
@@ -39,18 +41,21 @@ const RecipeCard = ({ recipe }) => {
         user_id: user.id,
       });
       if (res.status === 200) {
+        toast.success("Added to favorites")
+        setIsFav(!isFav)
         console.log(res);
         dispatch(updateUser({ id: recipe._id, action: "add" }));
-        // window.location.reload();
       }
     }
   };
+  
+
   return (
     <div className=" bg-[#f6eed5] rounded p-2 relative flex flex-col justify-between">
       <div className="absolute top-3 right-3 flex gap-2 items-center">
         <div
           className="bg-black/[0.6] rounded-full p-2 cursor-pointer"
-          onClick={() => setIsFav(!isFav)}
+          // onClick={() => setIsFav(!isFav)}
         >
           {isFav ? (
             <FavoriteIcon

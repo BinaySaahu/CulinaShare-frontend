@@ -3,7 +3,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { addUser } from "../../store/slices/userSlice";
+import { addUser, toggleLoading } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
 
 const MoboLogin = ({ setLogin }) => {
@@ -17,6 +17,7 @@ const MoboLogin = ({ setLogin }) => {
     password: "",
   });
   const handleSignUp = async (e) => {
+    dispatch(toggleLoading(true))
     e.preventDefault();
     console.log(user);
     if (user.email && user.password && user.name) {
@@ -25,6 +26,7 @@ const MoboLogin = ({ setLogin }) => {
         console.log(response);
 
         if (response.status === 200) {
+          dispatch(toggleLoading(false))
           navigate("/home");
           dispatch(
             addUser({
@@ -65,6 +67,7 @@ const MoboLogin = ({ setLogin }) => {
     }
   };
   const handleSignIn = async (e) => {
+    dispatch(toggleLoading(true))
     e.preventDefault();
     console.log(user);
     if (user.email && user.password) {
@@ -73,9 +76,7 @@ const MoboLogin = ({ setLogin }) => {
         console.log(response);
 
         if (response.status === 200) {
-          // const token = response.data.secrete_token
-          // dispatch(addUser({...response.data.user,token}))
-          // dispatch(setToken(response.data.secrete_token));
+          dispatch(toggleLoading(false))
           dispatch(
             addUser({
               ...response.data.user,

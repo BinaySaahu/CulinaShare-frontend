@@ -9,7 +9,8 @@ export const userSlice = createSlice({
     isLoggedIn: false,
     token:"",
     id:"",
-    favorites:[]
+    favorites:[],
+    isLoading: false
   },
   reducers: {
     addUser: (state,action) => {
@@ -34,13 +35,12 @@ export const userSlice = createSlice({
       }
       localStorage.removeItem("userInfo")
       localStorage.setItem("userInfo",JSON.stringify(state));
+    },
+    toggleLoading:(state,action)=>{
+      state.isLoading = action.payload
     }
-    // setToken:(state,action)=>{
-    //   state.token = action.payload
-    //   localStorage.setItem("token",action.payload);
-    // }
   },
 })
-export const { addUser,updateUser } = userSlice.actions
+export const { addUser,updateUser, toggleLoading } = userSlice.actions
 
 export default userSlice.reducer

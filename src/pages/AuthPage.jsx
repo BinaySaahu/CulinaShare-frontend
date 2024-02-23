@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import "./AuthPage.css";
 import Login from "../components/auth/Login";
 import MoboLogin from "../components/auth/MoboLogin";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader";
 
 const AuthPage = () => {
+  const User = useSelector((state) => state.user);
   const [login, setLogin] = useState(false);
   return (
     <>
@@ -20,8 +23,18 @@ const AuthPage = () => {
           </button>
         </div>
       </div>
-      {login && <Login setLogin = {setLogin}/>}
-      {login && <MoboLogin setLogin = {setLogin}/>}
+      {login && <Login setLogin={setLogin} />}
+      {login && <MoboLogin setLogin={setLogin} />}
+      {User.isLoading && (
+        <div className="z-[100] absolute top-0 left-0 h-screen w-screen bg-black/[0.6] flex items-center justify-center">
+          <Loader
+            primaryColor="#000000"
+            secondaryColor="#e0e0e0"
+            height={50}
+            width={50}
+          />
+        </div>
+      )}
     </>
   );
 };

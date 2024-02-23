@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeRecipes } from '../store/slices/allRecipes'
-import { addUser } from '../store/slices/userSlice'
+import { addUser, toggleLoading } from '../store/slices/userSlice'
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchedRecipe from './SearchedRecipe'
 import { BASE_URL } from '../utils'
@@ -18,8 +18,10 @@ const NavBar = () => {
   const [searchedRecipes,setSearchedRecipes] = useState([])
   const [showSearch,setShowSearch] = useState(false)
   const loadData = async()=>{
+    dispatch(toggleLoading(true))
     const res = await axios.get(`${BASE_URL}/recipe/getAllRecipes`)
     if(res.status === 200){
+      dispatch(toggleLoading(false))
       dispatch(storeRecipes(res.data.recipes))
     }
     console.log(res)

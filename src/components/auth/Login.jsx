@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import ClearIcon from '@mui/icons-material/Clear';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addUser } from "../../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, toggleLoading } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
+import Loader from "../Loader";
 
 const Login = ({setLogin}) => {
   const navigate = useNavigate()
   const [signIn, toggle] = useState(true);
+  const User = useSelector(state => state.user)
   const [err,setErr] = useState("")
   const dispatch = useDispatch()
   const [user,setUser] = useState({
@@ -17,6 +19,7 @@ const Login = ({setLogin}) => {
     password:""
   })
   const handleSignUp = async (e) => {
+    dispatch(toggleLoading(true))
     e.preventDefault()
     console.log(user)
     if (user.email && user.password && user.name) {
@@ -28,16 +31,11 @@ const Login = ({setLogin}) => {
         console.log(response)
         
         if (response.status === 200) {
-
+          dispatch(toggleLoading(false))
           navigate('/home')
           dispatch(addUser({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}))
           localStorage.setItem("userInfo",JSON.stringify({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}));
           localStorage.setItem("isLoggedIn",true);
-
-          // const token = response.data.secrete_token
-          // dispatch(addUser({...response.data.user,token}))
-          // dispatch(setToken(response.data.secrete_token))
-          // toast.success('Successfully Created account!')
           console.log("Logged in");
         } else {
           console.log("error");
@@ -57,6 +55,7 @@ const Login = ({setLogin}) => {
     }
   };
   const handleSignIn = async (e) => {
+    dispatch(toggleLoading(true))
     e.preventDefault()
     console.log(user)
     if (user.email && user.password) {
@@ -71,6 +70,7 @@ const Login = ({setLogin}) => {
           // const token = response.data.secrete_token
           // dispatch(addUser({...response.data.user,token}))
           // dispatch(setToken(response.data.secrete_token));
+          dispatch(toggleLoading(false))
           dispatch(addUser({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}))
           localStorage.setItem("userInfo",JSON.stringify({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}));
           localStorage.setItem("isLoggedIn",true);
@@ -125,7 +125,7 @@ const Login = ({setLogin}) => {
     setUser({ ...user, [name]: value });
 
   };
-  console.log(user)
+  console.log(User.isLoading)
   return (
     <div className="md:flex hidden justify-center items-center bg-black/[0.2] absolute left-0 top-0 w-screen h-screen z-[11]">
       <div className="flex">
@@ -257,6 +257,7 @@ const Login = ({setLogin}) => {
             <ClearIcon className="text-white cursor-pointer z-[100]" onClick = {()=>setLogin(false)}/>
         </div>
       </div>
+      
     </div>
   );
 };
