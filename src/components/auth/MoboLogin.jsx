@@ -51,6 +51,8 @@ const MoboLogin = ({ setLogin }) => {
           // toast.success('Successfully Created account!')
           console.log("Logged in");
         } else {
+          dispatch(toggleLoading(false))
+          setErr("Server Error")
           console.log("error");
         }
       } catch (err) {
@@ -64,6 +66,7 @@ const MoboLogin = ({ setLogin }) => {
         console.log(err);
       }
     } else {
+      dispatch(toggleLoading(false))
       setErr("Please enter all the fields");
     }
   };
@@ -101,6 +104,7 @@ const MoboLogin = ({ setLogin }) => {
 
           console.log("Logged in");
         } else {
+          dispatch(toggleLoading(false))
           console.log("error");
         }
       } catch (err) {
@@ -122,6 +126,7 @@ const MoboLogin = ({ setLogin }) => {
         console.log(err);
       }
     } else {
+      dispatch(toggleLoading(false))
       setErr("Please enter all the fields");
     }
   };

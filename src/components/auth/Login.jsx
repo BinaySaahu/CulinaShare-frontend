@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,103 +7,126 @@ import { addUser, toggleLoading } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
 import Loader from "../Loader";
 
-const Login = ({setLogin}) => {
-  const navigate = useNavigate()
+const Login = ({ setLogin }) => {
+  const navigate = useNavigate();
   const [signIn, toggle] = useState(true);
-  const User = useSelector(state => state.user)
-  const [err,setErr] = useState("")
-  const dispatch = useDispatch()
-  const [user,setUser] = useState({
-    name:"",
-    email:"",
-    password:""
-  })
+  const User = useSelector((state) => state.user);
+  const [err, setErr] = useState("");
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const handleSignUp = async (e) => {
-    dispatch(toggleLoading(true))
-    e.preventDefault()
-    console.log(user)
+    dispatch(toggleLoading(true));
+    e.preventDefault();
+    console.log(user);
     if (user.email && user.password && user.name) {
-      try{
-        const response = await axios.post(
-          `${BASE_URL}/auth/register`,
-          user
-        );
-        console.log(response)
-        
+      try {
+        const response = await axios.post(`${BASE_URL}/auth/register`, user);
+        console.log(response);
+
         if (response.status === 200) {
-          dispatch(toggleLoading(false))
-          navigate('/home')
-          dispatch(addUser({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}))
-          localStorage.setItem("userInfo",JSON.stringify({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}));
-          localStorage.setItem("isLoggedIn",true);
+          dispatch(toggleLoading(false));
+          navigate("/home");
+          dispatch(
+            addUser({
+              ...response.data.user,
+              token: response.data.secrete_token,
+              id: response.data.user._id,
+            })
+          );
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify({
+              ...response.data.user,
+              token: response.data.secrete_token,
+              id: response.data.user._id,
+            })
+          );
+          localStorage.setItem("isLoggedIn", true);
           console.log("Logged in");
         } else {
+          dispatch(toggleLoading(false));
           console.log("error");
         }
-
-      }catch(err){
-        dispatch(toggleLoading(false))
-        console.log(err)
-        if(err.response.data.code === 1){
+      } catch (err) {
+        dispatch(toggleLoading(false));
+        console.log(err);
+        if (err.response.data.code === 1) {
           setErr("User already exsists");
           return;
         }
-        setErr("Unwanted error")
+        setErr("Unwanted error");
         console.log(err);
       }
     } else {
+      dispatch(toggleLoading(false));
       setErr("Please enter all the fields");
     }
   };
   const handleSignIn = async (e) => {
-    dispatch(toggleLoading(true))
-    e.preventDefault()
-    console.log(user)
+    dispatch(toggleLoading(true));
+    e.preventDefault();
+    console.log(user);
     if (user.email && user.password) {
-      try{
-        const response = await axios.post(
-          `${BASE_URL}/auth/login`,
-          user
-        );
-        console.log(response)
-        
+      try {
+        const response = await axios.post(`${BASE_URL}/auth/login`, user);
+        console.log(response);
+
         if (response.status === 200) {
           // const token = response.data.secrete_token
           // dispatch(addUser({...response.data.user,token}))
           // dispatch(setToken(response.data.secrete_token));
-          dispatch(toggleLoading(false))
-          dispatch(addUser({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}))
-          localStorage.setItem("userInfo",JSON.stringify({...response.data.user,token:response.data.secrete_token,id:response.data.user._id}));
-          localStorage.setItem("isLoggedIn",true);
+          dispatch(toggleLoading(false));
+          dispatch(
+            addUser({
+              ...response.data.user,
+              token: response.data.secrete_token,
+              id: response.data.user._id,
+            })
+          );
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify({
+              ...response.data.user,
+              token: response.data.secrete_token,
+              id: response.data.user._id,
+            })
+          );
+          localStorage.setItem("isLoggedIn", true);
 
           // toast.success('Successfully Logged in!')
 
-          navigate('/home')
-          
+          navigate("/home");
+
           console.log("Logged in");
         } else {
+          dispatch(toggleLoading(false));
           console.log("error");
         }
-
-      }catch(err){
-        dispatch(toggleLoading(false))
-        console.log(err)
-        if(err.response.data.code === 2){
+      } catch (err) {
+        dispatch(toggleLoading(false));
+        console.log(err);
+        if (err.response.data.code === 2) {
           setErr("Invalid email");
           return;
         }
-        if(err.response.data.code === 4){
+        if (err.response.data.code === 4) {
           setErr("Invalid password");
           return;
         }
-        if(err.response.data.code === 3){
+        if (err.response.data.code === 3) {
           setErr("User does not exists");
           return;
         }
-        setErr("Unwanted error")
+        setErr("Unwanted error");
         console.log(err);
       }
     } else {
+      dispatch(toggleLoading(false));
+
       setErr("Please enter all the fields");
     }
   };
@@ -125,9 +148,8 @@ const Login = ({setLogin}) => {
       }
     }
     setUser({ ...user, [name]: value });
-
   };
-  console.log(User.isLoading)
+  console.log(User.isLoading);
   return (
     <div className="md:flex hidden justify-center items-center bg-black/[0.2] absolute left-0 top-0 w-screen h-screen z-[11]">
       <div className="flex">
@@ -256,10 +278,12 @@ const Login = ({setLogin}) => {
           </div>
         </div>
         <div>
-            <ClearIcon className="text-white cursor-pointer z-[100]" onClick = {()=>setLogin(false)}/>
+          <ClearIcon
+            className="text-white cursor-pointer z-[100]"
+            onClick={() => setLogin(false)}
+          />
         </div>
       </div>
-      
     </div>
   );
 };
