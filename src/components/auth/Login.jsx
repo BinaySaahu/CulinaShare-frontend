@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -66,6 +66,10 @@ const Login = ({ setLogin }) => {
       setErr("Please enter all the fields");
     }
   };
+  useEffect(()=>{
+    setErr("")
+
+  },[user])
   const handleSignIn = async (e) => {
     dispatch(toggleLoading(true));
     e.preventDefault();

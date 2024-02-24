@@ -16,6 +16,10 @@ const MoboLogin = ({ setLogin }) => {
     email: "",
     password: "",
   });
+  useEffect(()=>{
+    setErr("")
+
+  },[user])
   const handleSignUp = async (e) => {
     dispatch(toggleLoading(true))
     e.preventDefault();
