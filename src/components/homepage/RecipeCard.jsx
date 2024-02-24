@@ -5,14 +5,16 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../store/slices/userSlice";
+import { toggleLoading, updateUser } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
 import toast from "react-hot-toast";
+import Loader from "../Loader";
 
 const RecipeCard = ({ recipe }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isFav, setIsFav] = useState(false);
+  const  [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const favs = user.favorites;
@@ -23,16 +25,18 @@ const RecipeCard = ({ recipe }) => {
     }
   }, [user, recipe]);
   const handleClick = async (action) => {
+    setIsLoading(true)
     if (action === "remove") {
       const res = await axios.post(`${BASE_URL}/recipe/removeFav`, {
         recipe_id: recipe._id,
         user_id: user.id,
       });
       if (res.status === 200) {
+        dispatch(updateUser({ id: recipe._id, action: "remove" }));
         toast.success("Removed From Favorites");
         console.log(res);
+        setIsLoading(false)
         setIsFav(!isFav)
-        dispatch(updateUser({ id: recipe._id, action: "remove" }));
       }
     }else if(action === "add"){
       console.log(user)
@@ -41,10 +45,11 @@ const RecipeCard = ({ recipe }) => {
         user_id: user.id,
       });
       if (res.status === 200) {
-        toast.success("Added to favorites")
-        setIsFav(!isFav)
         console.log(res);
         dispatch(updateUser({ id: recipe._id, action: "add" }));
+        toast.success("Added to favorites")
+        setIsLoading(false)
+        setIsFav(!isFav)
       }
     }
   };
@@ -57,7 +62,14 @@ const RecipeCard = ({ recipe }) => {
           className="bg-black/[0.6] rounded-full p-2 cursor-pointer"
           // onClick={() => setIsFav(!isFav)}
         >
-          {isFav ? (
+          {isLoading?(
+            <Loader
+            primaryColor="#000000"
+            secondaryColor="#e0e0e0"
+            height={25}
+            width={25}
+          />
+          ):(isFav ? (
             <FavoriteIcon
               className="text-white"
               onClick={() => handleClick("remove")}
@@ -67,7 +79,7 @@ const RecipeCard = ({ recipe }) => {
               className="text-white"
               onClick={() => handleClick("add")}
             />
-          )}
+          ))}
         </div>
       </div>
       <div>
