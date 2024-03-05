@@ -6,7 +6,7 @@ import axios from "axios";
 import { addUser, toggleLoading } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
 
-const MoboLogin = ({ setLogin }) => {
+const MoboLogin = ({ setLogin, setLoading }) => {
   const [isSignUp, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const [err, setErr] = useState("");
@@ -16,12 +16,11 @@ const MoboLogin = ({ setLogin }) => {
     email: "",
     password: "",
   });
-  useEffect(()=>{
-    setErr("")
-
-  },[user])
+  
   const handleSignUp = async (e) => {
-    dispatch(toggleLoading(true))
+    // dispatch(toggleLoading(true))
+    setLoading(true)
+
     e.preventDefault();
     console.log(user);
     if (user.email && user.password && user.name) {
@@ -30,7 +29,9 @@ const MoboLogin = ({ setLogin }) => {
         console.log(response);
 
         if (response.status === 200) {
-          dispatch(toggleLoading(false))
+          // dispatch(toggleLoading(false))
+          setLoading(false)
+
           navigate("/home");
           dispatch(
             addUser({
@@ -55,12 +56,16 @@ const MoboLogin = ({ setLogin }) => {
           // toast.success('Successfully Created account!')
           console.log("Logged in");
         } else {
-          dispatch(toggleLoading(false))
+          // dispatch(toggleLoading(false))
+          setLoading(false)
+
           setErr("Server Error")
           console.log("error");
         }
       } catch (err) {
-        dispatch(toggleLoading(false))
+        // dispatch(toggleLoading(false))
+        setLoading(false)
+
         console.log(err);
         if (err.response.data.code === 1) {
           setErr("User already exsists");
@@ -70,12 +75,16 @@ const MoboLogin = ({ setLogin }) => {
         console.log(err);
       }
     } else {
-      dispatch(toggleLoading(false))
+      // dispatch(toggleLoading(false))
+      setLoading(false)
+
       setErr("Please enter all the fields");
     }
   };
   const handleSignIn = async (e) => {
-    dispatch(toggleLoading(true))
+    // dispatch(toggleLoading(true))
+    setLoading(true)
+
     e.preventDefault();
     console.log(user);
     if (user.email && user.password) {
@@ -84,7 +93,9 @@ const MoboLogin = ({ setLogin }) => {
         console.log(response);
 
         if (response.status === 200) {
-          dispatch(toggleLoading(false))
+          // dispatch(toggleLoading(false))
+          setLoading(false)
+
           dispatch(
             addUser({
               ...response.data.user,
@@ -108,11 +119,15 @@ const MoboLogin = ({ setLogin }) => {
 
           console.log("Logged in");
         } else {
-          dispatch(toggleLoading(false))
+          // dispatch(toggleLoading(false))
+          setLoading(false)
+
           console.log("error");
         }
       } catch (err) {
-        dispatch(toggleLoading(false))
+        // dispatch(toggleLoading(false))
+        setLoading(false)
+
         console.log(err);
         if (err.response.data.code === 2) {
           setErr("Invalid email");
@@ -130,10 +145,13 @@ const MoboLogin = ({ setLogin }) => {
         console.log(err);
       }
     } else {
-      dispatch(toggleLoading(false))
+      // dispatch(toggleLoading(false))
+      setLoading(false)
+
       setErr("Please enter all the fields");
     }
   };
+  
   const dataInp = (e) => {
     const value = e.target.value;
     const name = e.target.name;
@@ -153,6 +171,10 @@ const MoboLogin = ({ setLogin }) => {
     }
     setUser({ ...user, [name]: value });
   };
+  useEffect(()=>{
+    setErr("")
+
+  },[user])
   return (
     <div className="md:hidden flex justify-center items-center absolute top-0 left-0 w-full h-screen bg-black/[0.6] z-[11] px-5">
       <div className="flex flex-col items-center shadow-btn_shadow rounded-md px-5 py-5 gap-5 bg-white">

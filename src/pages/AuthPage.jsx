@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 const AuthPage = () => {
   const User = useSelector((state) => state.user);
   const [login, setLogin] = useState(false);
+  const [loading,setLoading] = useState(false)
   return (
     <>
       {" "}
@@ -23,9 +24,9 @@ const AuthPage = () => {
           </button>
         </div>
       </div>
-      {login && <Login setLogin={setLogin} />}
-      {login && <MoboLogin setLogin={setLogin} />}
-      {User.isLoading && (
+      {login && <Login setLogin={setLogin} setLoading = {setLoading} />}
+      {login && <MoboLogin setLogin={setLogin} setLoading = {setLoading} />}
+      {loading && (
         <div className="z-[100] absolute top-0 left-0 h-screen w-screen bg-black/[0.6] flex items-center justify-center">
           <Loader
             primaryColor="#000000"

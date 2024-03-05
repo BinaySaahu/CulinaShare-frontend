@@ -14,6 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const RecipeDescPage = () => {
   const user = useSelector((state) => state.user);
+  const {recipes} = useSelector((state) => state.allRecipes);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isFav, setIsFav] = useState(false);
@@ -23,19 +24,22 @@ const RecipeDescPage = () => {
   const loadData = async () => {
     dispatch(toggleLoading(true));
     console.log(id);
-    const res = await axios.get(`${BASE_URL}/recipe/getARecipe/${id}`);
-    console.log(res);
-    if (res.status === 200) {
+    // const res = await axios.get(`${BASE_URL}/recipe/getARecipe/${id}`);
+    // console.log(res);
+
+
+    const r = recipes?.find((re)=>re._id === id)
+    // if (res.status === 200) {
+      setDesc(r);
       dispatch(toggleLoading(false));
-      setDesc(res?.data?.det);
-    }
+    // }
   };
   useEffect(() => {
     loadData();
-  }, []);
+  }, [recipes]);
   useEffect(() => {
     const favs = user.favorites;
-    if (favs?.find((a) => a === desc._id) !== undefined) {
+    if (favs?.find((a) => a === desc?._id) !== undefined) {
       setIsFav(true);
     }
   }, [user, desc]);
@@ -43,12 +47,12 @@ const RecipeDescPage = () => {
     setIsLoading(true);
     if (action === "remove") {
       const res = await axios.post(`${BASE_URL}/recipe/removeFav`, {
-        recipe_id: desc._id,
+        recipe_id: desc?._id,
         user_id: user.id,
       });
       if (res.status === 200) {
         console.log(res);
-        dispatch(updateUser({ id: desc._id, action: "remove" }));
+        dispatch(updateUser({ id: desc?._id, action: "remove" }));
         toast.success("Removed From Favorites");
         console.log(res);
         setIsLoading(false);
@@ -58,12 +62,12 @@ const RecipeDescPage = () => {
     } else if (action === "add") {
       console.log(user);
       const res = await axios.post(`${BASE_URL}/recipe/addFav`, {
-        recipe_id: desc._id,
+        recipe_id: desc?._id,
         user_id: user.id,
       });
       if (res.status === 200) {
         console.log(res);
-        dispatch(updateUser({ id: desc._id, action: "add" }));
+        dispatch(updateUser({ id: desc?._id, action: "add" }));
         toast.success("Added to Favorites");
         console.log(res);
         setIsLoading(false);
@@ -126,9 +130,9 @@ const RecipeDescPage = () => {
             />
             <div className="absolute left-0 top-0 bg-black/[0.6] h-full w-full flex flex-col items-start rounded justify-end px-3 pb-6">
               <p className="md:text-[50px] text-[25px] text-[white] font-bold">
-                {desc.Name}
+                {desc?.Name}
               </p>
-              <p className="text-white">{desc.Description}</p>
+              <p className="text-white">{desc?.Description}</p>
             </div>
           </div>
           <div className="flex justify-between items-center mt-2">
@@ -139,14 +143,14 @@ const RecipeDescPage = () => {
         </div> */}
             {/* </p> */}
             <p className="md:text-[20px] text-[12px]">
-              Preparation time: {desc.time}
+              Preparation time: {desc?.time}
             </p>
             <p className="md:text-[20px] text-[12px]">Ratings: 4.5/5</p>
           </div>
           <div>
             <h1 className="text-[30px] font-semibold">Ingridents</h1>
             <div className="grid md:grid-cols-5 grid-cols-3 gap-8 mt-6">
-              {desc.Ingredients?.map((ing, idx) => (
+              {desc?.Ingredients?.map((ing, idx) => (
                 <p
                   className="border border-[#a7462c] rounded py-2 px-5 md:text-[14px] text-[10px] font-semibold bg-bg_secondary1 hover:shadow-btn_shadow text-white"
                   key={idx}
@@ -159,7 +163,7 @@ const RecipeDescPage = () => {
           <div>
             <h1 className="text-[30px] font-semibold">Making Procedure</h1>
             <ol className="ml-5 list-disc">
-              {desc.Method?.map((m, idx) => (
+              {desc?.Method?.map((m, idx) => (
                 <li key={idx}>{m}</li>
               ))}
             </ol>

@@ -7,7 +7,7 @@ import { addUser, toggleLoading } from "../../store/slices/userSlice";
 import { BASE_URL } from "../../utils";
 import Loader from "../Loader";
 
-const Login = ({ setLogin }) => {
+const Login = ({ setLogin,setLoading }) => {
   const navigate = useNavigate();
   const [signIn, toggle] = useState(true);
   const User = useSelector((state) => state.user);
@@ -19,7 +19,8 @@ const Login = ({ setLogin }) => {
     password: "",
   });
   const handleSignUp = async (e) => {
-    dispatch(toggleLoading(true));
+    // dispatch(toggleLoading(true));
+    setLoading(true)
     e.preventDefault();
     console.log(user);
     if (user.email && user.password && user.name) {
@@ -28,7 +29,8 @@ const Login = ({ setLogin }) => {
         console.log(response);
 
         if (response.status === 200) {
-          dispatch(toggleLoading(false));
+          // dispatch(toggleLoading(false));
+          setLoading(false)
           navigate("/home");
           dispatch(
             addUser({
@@ -48,11 +50,15 @@ const Login = ({ setLogin }) => {
           localStorage.setItem("isLoggedIn", true);
           console.log("Logged in");
         } else {
-          dispatch(toggleLoading(false));
+          // dispatch(toggleLoading(false));
+          setLoading(false)
+
           console.log("error");
         }
       } catch (err) {
-        dispatch(toggleLoading(false));
+        // dispatch(toggleLoading(false));
+        setLoading(false)
+
         console.log(err);
         if (err.response.data.code === 1) {
           setErr("User already exsists");
@@ -62,7 +68,9 @@ const Login = ({ setLogin }) => {
         console.log(err);
       }
     } else {
-      dispatch(toggleLoading(false));
+      // dispatch(toggleLoading(false));
+      setLoading(false)
+
       setErr("Please enter all the fields");
     }
   };
@@ -71,7 +79,9 @@ const Login = ({ setLogin }) => {
 
   },[user])
   const handleSignIn = async (e) => {
-    dispatch(toggleLoading(true));
+    // dispatch(toggleLoading(true));
+    setLoading(true)
+
     e.preventDefault();
     console.log(user);
     if (user.email && user.password) {
@@ -83,7 +93,9 @@ const Login = ({ setLogin }) => {
           // const token = response.data.secrete_token
           // dispatch(addUser({...response.data.user,token}))
           // dispatch(setToken(response.data.secrete_token));
-          dispatch(toggleLoading(false));
+          // dispatch(toggleLoading(false));
+          setLoading(false)
+
           dispatch(
             addUser({
               ...response.data.user,
@@ -107,11 +119,15 @@ const Login = ({ setLogin }) => {
 
           console.log("Logged in");
         } else {
-          dispatch(toggleLoading(false));
+          // dispatch(toggleLoading(false));
+          setLoading(false)
+
           console.log("error");
         }
       } catch (err) {
-        dispatch(toggleLoading(false));
+        // dispatch(toggleLoading(false));
+        setLoading(false)
+
         console.log(err);
         if (err.response.data.code === 2) {
           setErr("Invalid email");
@@ -129,7 +145,9 @@ const Login = ({ setLogin }) => {
         console.log(err);
       }
     } else {
-      dispatch(toggleLoading(false));
+      // dispatch(toggleLoading(false));
+      setLoading(false)
+
 
       setErr("Please enter all the fields");
     }
