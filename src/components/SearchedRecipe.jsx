@@ -6,7 +6,7 @@ const SearchedRecipe = ({searchedRecipes,setShowSearch}) => {
   return (
     <div className='z-[11] absolute top-[60px] md:left-[25%] overflow-y-scroll rounded-md shadow-btn_shadow max-h-[400px] bg-[white] max-w-[700px] md:min-w-auto min-w-[340px]'>
         {searchedRecipes?.map((r,idx)=>(
-            <Link to={`/desc/${r._id}`} className='flex items-center gap-2 border-b px-2 py-4' onClick={()=>setShowSearch(false)}>
+            <Link to={`/desc/${r._id}`} className='flex items-center gap-2 border-b px-2 py-4' onClick={()=>{setShowSearch(false); window.reload()}}>
                 <div className=' flex-[0.1]'>
                     <img src={img} className='h-[40px] w-[40px]' alt="" />
                 </div>
